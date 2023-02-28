@@ -2,19 +2,22 @@ import { nextTick } from 'vue';
 import { describe, it, expect, vi, beforeAll } from 'vitest';
 import { mount, RouterLinkStub } from '@vue/test-utils';
 import axios from 'axios';
-import { fakeOfferList } from '../../fake';
+import { fakeOfferList, fakeUser } from '../../fake';
 import HomePage from './HomePage.vue';
+import store from '../../store';
 import ListView from '../../components/ListView';
 
-const $route = {
-  query: {
-    title: '',
-  },
-};
-
 const global = {
+  provide: {
+    store,
+    user: fakeUser(),
+  },
   mocks: {
-    $route,
+    $route: {
+      query: {
+        title: '',
+      },
+    },
   },
   stubs: {
     RouterLink: RouterLinkStub,

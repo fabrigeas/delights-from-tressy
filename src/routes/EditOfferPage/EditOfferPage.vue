@@ -70,11 +70,8 @@ export default defineComponent({
       return;
     }
 
-    axios({
-      method: 'GET',
-      url: `${baseUrl}/${this.$route.params.id}`,
-      headers: {},
-    })
+    axios
+      .get(`${baseUrl}/${this.$route.params.id}`)
       .then(({ data }) => {
         if (data) {
           this.offer = data.offer;

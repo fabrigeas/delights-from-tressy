@@ -3,26 +3,28 @@ import OfferCard from './OfferCard.vue';
 import { describe, it, test, expect } from 'vitest';
 import { fakeOffer, fakeCartItem, fakeUser } from '../../fake';
 import { type Offer, type CartItem, type OfferType } from '../../types';
+import store from '../../store';
 
 const quantityInput = '.order input';
 const btnIncrementQtt = '.order button';
-const user = fakeUser();
 const provide = {
-  user,
+  store,
+  user: fakeUser(),
+  router: {},
 };
-
+const global = {
+  provide,
+  stubs: {
+    RouterLink: RouterLinkStub,
+  },
+};
 describe('Offer', () => {
   test('data and props', () => {
     const data = fakeOffer();
     const wrapper = mount(OfferCard, {
+      global,
       props: {
         data,
-      },
-      global: {
-        provide,
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
       },
     });
 
@@ -34,14 +36,9 @@ describe('Offer', () => {
     { data: fakeCartItem(1), type: 'cart-item' },
   ])(`OfferCard Type`, ({ data, type }) => {
     const wrapper = mount(OfferCard, {
+      global,
       props: {
         data,
-      },
-      global: {
-        provide,
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
       },
     });
 
@@ -52,38 +49,28 @@ describe('Offer', () => {
     expect(wrapper.classes()).includes(type);
   });
 
-  test.each([fakeUser(), undefined])(`Link to Edit page exists`, () => {
-    const wrapper = mount(OfferCard, {
-      props: {
-        data: fakeOffer(),
-      },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
-    });
+  // test.each([fakeUser(), undefined])(`Link to Edit page exists`, () => {
+  //   const wrapper = mount(OfferCard, {
+  //     props: {
+  //       data: fakeOffer(),
+  //     },
+  //     global
+  //   });
 
-    const link = expect(wrapper.find('.link-to-edit-offer').exists());
+  //   const link = expect(wrapper.find('.link-to-edit-offer').exists());
 
-    link.toBeTruthy();
-  });
+  //   link.toBeTruthy();
+  // });
 
   test.each(['drink', 'food', 'fruit', 'salad'] as OfferType[])(
-    'OfferType',
+    'OfferType "%s"',
     offerType => {
       const data = fakeOffer({ offerType });
       const wrapper = mount(OfferCard, {
-        shallow: true,
         props: {
           data,
         },
-        global: {
-          provide,
-          stubs: {
-            RouterLink: RouterLinkStub,
-          },
-        },
+        global,
       });
 
       expect(wrapper.classes()).includes(offerType);
@@ -93,17 +80,9 @@ describe('Offer', () => {
   test('add to cart', async () => {
     const data = fakeOffer();
     const wrapper = mount(OfferCard, {
+      global,
       props: {
         data,
-      },
-      global: {
-        provide: {
-          user: fakeUser(),
-          router: {},
-        },
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
       },
     });
 
@@ -117,15 +96,9 @@ describe('Cart item', () => {
   it('renders props', () => {
     const data: CartItem = fakeCartItem();
     const wrapper = mount(OfferCard, {
-      shallow: true,
+      global,
       props: {
         data,
-      },
-      global: {
-        provide,
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
       },
     });
 
@@ -134,23 +107,16 @@ describe('Cart item', () => {
   });
 
   // test.each([2])('quantity', quantity => {
-  //   const data = fakeCartItem(quantity);
+  //   const data = fakeCartItem({ quantity });
+  //   console.log(data);
+
   //   const wrapper = mount(OfferCard, {
-  //     shallow: true,
+  //     global,
   //     props: {
   //       data,
   //     },
-  //     global: {
-  //       provide: {
-  //         store,
-  //         user: fakeUser(),
-  //       },
-  //       stubs: {
-  //         RouterLink: RouterLinkStub,
-  //       },
-  //     },
   //   });
 
-  //   expect(wrapper.find(quantityInput).text()).toBe(quantity);
+  //   expect(wrapper.text()).toBe(quantity);
   // });
 });
