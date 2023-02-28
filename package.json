@@ -5,7 +5,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite build --outDir ../../shopping-app-restful-api/public --watch --sourcemap",
     "build": "vue-tsc && vite build",
     "format": "prettier --write src",
     "lint": "eslint --ext .ts,vue src",
