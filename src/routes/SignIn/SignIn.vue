@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import CustomButton from '../../components/CustomButton';
 import axios from 'axios';
 import { API_ROUTES } from '../../constants';
 
-const password = ref('');
-const email = ref('');
+const password = ref('password');
+const email = ref('jenny@gmail.com');
+const router = useRouter();
+const store = useStore();
 const signin = () => {
   axios
     .post(API_ROUTES.SIGN_IN, {
@@ -13,7 +17,8 @@ const signin = () => {
       password: password.value,
     })
     .then(({ data }) => {
-      console.log(data);
+      store.commit('setUser', data?.user);
+      router.push('/');
     })
     .catch(e => {
       console.log(e);

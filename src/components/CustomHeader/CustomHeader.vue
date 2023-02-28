@@ -1,9 +1,26 @@
 <script setup lang="ts">
+import axios from 'axios';
 import { computed } from 'vue';
+import { useStore } from 'vuex';
+import { User } from '../../types';
 
 const today = computed(
   () => '?daysOfTheWeek=' + new Date().toString().substring(0, 3)
 );
+
+const store = useStore();
+const user = computed<User | null>(() => store.state.user);
+
+const signOut = () => {
+  axios
+    .post('/auth/sign-out', user.value)
+    .then(() => {
+      store.commit('setUser', null);
+    })
+    .catch(e => {
+      console.log(e);
+    });
+};
 </script>
 
 <template>
@@ -23,22 +40,22 @@ const today = computed(
           <router-link to="/offers?offerType=drink">Boissons</router-link>
         </li>
       </menu>
-      <div class="dropdown">
+      <div v-if="user" class="dropdown">
         <details
           ref="dropdown"
           @mouseenter="e=>(e.target as HTMLDetailsElement).open = true"
           @mouseleave="e=>(e.target as HTMLDetailsElement).open = false"
         >
-          <summary>Username</summary>
+          <summary>{{ user?.email }}</summary>
           <ul>
             <li><router-link to="/my/cart">My Cart</router-link></li>
             <li><router-link to="/my/favorites">My favorites</router-link></li>
             <li><router-link to="/my/orders">My orders</router-link></li>
-            <li role="button">Signout</li>
+            <li role="button" @click="signOut">Sign-out</li>
           </ul>
         </details>
       </div>
-      <li><router-link to="/sign-in">Sign in</router-link></li>
+      <li v-else><router-link to="/sign-in">Sign in</router-link></li>
     </nav>
   </header>
 </template>

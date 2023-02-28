@@ -8,6 +8,9 @@ it('renders inputs', async () => {
   const wrapper = mount(SignIn, {
     props: {},
     global: {
+      provide: {
+        store: {},
+      },
       stubs: {
         RouterLink: RouterLinkStub,
       },

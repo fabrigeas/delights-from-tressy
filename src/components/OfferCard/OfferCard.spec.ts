@@ -6,6 +6,10 @@ import { type Offer, type CartItem, type OfferType } from '../../types';
 
 const quantityInput = '.order input';
 const btnIncrementQtt = '.order button';
+const user = fakeUser();
+const provide = {
+  user,
+};
 
 describe('Offer', () => {
   test('data and props', () => {
@@ -15,6 +19,7 @@ describe('Offer', () => {
         data,
       },
       global: {
+        provide,
         stubs: {
           RouterLink: RouterLinkStub,
         },
@@ -33,6 +38,7 @@ describe('Offer', () => {
         data,
       },
       global: {
+        provide,
         stubs: {
           RouterLink: RouterLinkStub,
         },
@@ -73,6 +79,7 @@ describe('Offer', () => {
           data,
         },
         global: {
+          provide,
           stubs: {
             RouterLink: RouterLinkStub,
           },
@@ -91,6 +98,7 @@ describe('Offer', () => {
       },
       global: {
         provide: {
+          user: fakeUser(),
           router: {},
         },
         stubs: {
@@ -114,6 +122,7 @@ describe('Cart item', () => {
         data,
       },
       global: {
+        provide,
         stubs: {
           RouterLink: RouterLinkStub,
         },

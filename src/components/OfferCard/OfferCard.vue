@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { CartItem, Offer } from '../../types';
+import { ref, computed, inject } from 'vue';
+import { CartItem, Offer, User } from '../../types';
 import CustomButton from '../CustomButton';
 
 export interface CardProps {
@@ -38,6 +38,14 @@ const daysOfTheWeek = computed(() => {
 
   return result;
 });
+
+// TODO: this type should not be hard coded
+const user = inject('user') as { value: User | undefined };
+const isAdmin = computed(() =>
+  user && user.value
+    ? ['mawelle', 'jenny'].includes(user.value.email.split('@')[0])
+    : false
+);
 const className = computed(() => [
   'card',
   isOffer.value ? 'offer' : 'cart-item',
@@ -105,6 +113,7 @@ const mainImage = computed(() => {
         </CustomButton>
       </div>
       <router-link
+        v-if="isAdmin"
         class="link-to-edit-offer CustomButton primary outlined"
         :to="url"
         >Edit offer</router-link
