@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, inject } from 'vue';
+import { ref, computed, inject, watch } from 'vue';
 import { CartItem, Offer, User } from '../../types';
 import CustomButton from '../CustomButton';
+import { useStore } from 'vuex';
 
 export interface CardProps {
   data: CartItem | Offer;
@@ -66,6 +67,18 @@ const mainImage = computed(() => {
   }
 
   return `offers/${id}/${images?.[0]}`;
+});
+const store = useStore();
+
+watch(quantity, q => {
+  if (q > 0) {
+    store.commit('updateItemInCart', {
+      offer: offer.value,
+      quantity: q,
+    });
+  } else {
+    store.commit('removeFromCart', offer.value);
+  }
 });
 </script>
 
