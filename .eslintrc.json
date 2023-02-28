@@ -1,0 +1,25 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "parser": "vue-eslint-parser",
+  "extends": [
+    "plugin:vue/vue3-recommended",
+    "eslint:recommended",
+    "@vue/typescript/recommended",
+    "prettier",
+    "@vue/prettier"
+  ],
+  "overrides": [],
+  "parserOptions": {
+    "project": ["./tsconfig.json"],
+    "extraFileExtensions": [".json", ".vue"],
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "parser": "@typescript-eslint/parser"
+  },
+  "rules": {
+  },
+  "ignorePatterns": ["**/*.json", "vite.config.ts", "vite-env.d.ts", "/assets/*"]
+}

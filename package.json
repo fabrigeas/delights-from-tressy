@@ -8,13 +8,24 @@
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "format": "prettier --write src",
+    "lint": "eslint --ext .ts,vue src",
+    "lint:fix": "npm run lint -- --fix",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@rushstack/eslint-patch": "^1.2.0",
     "vue": "^3.2.45"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/parser": "^5.54.0",
     "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/eslint-config-typescript": "^11.0.2",
+    "@vue/eslint-config-prettier": "^7.1.0",
+    "eslint": "^8.35.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.9.0",
     "git-commit-msg-linter": "^4.7.4",
     "prettier": "^2.8.4",
     "typescript": "^4.9.3",
