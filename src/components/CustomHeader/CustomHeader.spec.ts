@@ -6,6 +6,11 @@ describe('Properties', () => {
   it('renders', async () => {
     const wrapper = mount(CustomHeader, {
       global: {
+        provide: {
+          store: {
+            state: {},
+          },
+        },
         stubs: {
           RouterLink: RouterLinkStub,
         },
